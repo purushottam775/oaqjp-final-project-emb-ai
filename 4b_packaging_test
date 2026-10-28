@@ -1,3 +1,0 @@
->>> from EmotionDetection.emotion_detection import emotion_detector
->>> emotion_detector("I love this new technology")
-{'anger': 0.006274985, 'disgust': 0.0025598293, 'fear': 0.009251528, 'joy': 0.9680878, 'sadness': 0.049744144, 'dominant_emotion': 'joy'}

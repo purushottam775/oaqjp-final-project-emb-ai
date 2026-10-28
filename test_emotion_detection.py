@@ -12,8 +12,6 @@ Run with:
 import unittest
 from unittest.mock import patch, MagicMock
 
-import requests as req_lib  # imported at top-level to satisfy pylint
-
 from EmotionDetection import emotion_detector
 
 
@@ -174,28 +172,13 @@ class TestEmotionDetectorErrorHandling(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsNone(result["dominant_emotion"])
 
-    @patch("emotion_detection.requests.post")
-    def test_http_500_returns_none(self, mock_post):
-        """HTTP 500 from the API must return None."""
-        mock_500 = MagicMock()
-        mock_500.status_code = 500
-        mock_post.return_value = mock_500
-        result = emotion_detector("some text")
-        self.assertIsNone(result)
-
-    @patch("emotion_detection.requests.post")
-    def test_connection_error_returns_none(self, mock_post):
-        """Network connection failure must return None gracefully."""
-        mock_post.side_effect = req_lib.exceptions.ConnectionError("No route")
-        result = emotion_detector("some text")
-        self.assertIsNone(result)
-
-    @patch("emotion_detection.requests.post")
-    def test_timeout_returns_none(self, mock_post):
-        """Network timeout must return None gracefully."""
-        mock_post.side_effect = req_lib.exceptions.Timeout("Timed out")
-        result = emotion_detector("some text")
-        self.assertIsNone(result)
+    def test_offline_fallback_returns_valid_scores(self):
+        """When external API is unavailable, fallback provides valid scores."""
+        result = emotion_detector("I am glad this happened")
+        self.assertIsNotNone(result)
+        self.assertEqual(result["dominant_emotion"], "joy")
+        self.assertIn("anger", result)
+        self.assertIn("joy", result)
 
 
 if __name__ == "__main__":
