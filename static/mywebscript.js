@@ -10,4 +10,7 @@ let RunSentimentAnalysis = ()=>{
     xhttp.open("GET", "emotionDetector?textToAnalyze"+"="+textToAnalyze, true);
     xhttp.send();
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e04588b7b73640f1afb806d3e6bf3e2a41e8fd2

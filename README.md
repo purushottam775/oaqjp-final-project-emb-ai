@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # IBM Watson NLP Emotion Detector — Final Project
 
 > **IBM Skills Network · Python Project for AI and Application Development**
@@ -273,3 +274,6 @@ WATSON_HEADERS = {
 ## 📄 License
 
 This project is submitted as part of the IBM Skills Network coursework. Source code is provided for educational purposes.
+=======
+# Repository for final project
+>>>>>>> 3e04588b7b73640f1afb806d3e6bf3e2a41e8fd2
