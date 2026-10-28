@@ -1,202 +1,190 @@
-<<<<<<< HEAD
-# IBM Watson NLP Emotion Detector — Final Project
+# Final Project
 
-> **IBM Skills Network · Python Project for AI and Application Development**
+# IBM Watson NLP Emotion Detector
+
+**IBM Skills Network — Python Project for AI and Application Development**
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-3.0%2B-green)](https://flask.palletsprojects.com/)
 [![PyLint](https://img.shields.io/badge/PyLint-10.00%2F10-brightgreen)](https://pylint.org/)
-[![Tests](https://img.shields.io/badge/Tests-15%2F15%20passing-brightgreen)](test_emotion_detection.py)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Tests](https://img.shields.io/badge/Unit%20Tests-unittest-blue)](https://docs.python.org/3/library/unittest.html)
 
----
+## Project Overview
 
-## 📋 Project Overview
+The Emotion Detector is a Python application that analyzes text using the IBM Watson NLP EmotionPredict API. It identifies five emotions: **anger, disgust, fear, joy, and sadness**.
 
-The **Emotion Detector** is an AI-powered web application that analyses text and identifies five emotions — **anger**, **disgust**, **fear**, **joy**, and **sadness** — using the IBM Watson NLP EmotionPredict API.  
-A clean Flask web interface lets users enter any sentence and see real-time emotion scores plus the dominant emotion.
+The application extracts emotion scores, determines the dominant emotion, and displays the results through a Flask web interface.
 
----
+## Project Objectives
 
-## 🎯 Project Objectives
+1. Create a GitHub repository with project documentation.
+2. Implement an emotion detection function using the Watson NLP library.
+3. Format the API response into a Python dictionary.
+4. Package the application in the `EmotionDetection` Python package.
+5. Create and run unit tests using `unittest`.
+6. Deploy the application using Flask.
+7. Handle HTTP 400 responses and blank input.
+8. Perform static code analysis using PyLint.
 
-| # | Objective |
-|---|-----------|
-| 1 | Create a public GitHub repository with a detailed README |
-| 2 | Implement the `emotion_detector()` function using IBM Watson NLP |
-| 3 | Format the API output into a structured Python dictionary |
-| 4 | Package the function as the `EmotionDetection` importable package |
-| 5 | Write unit tests using `unittest` with mocked HTTP responses |
-| 6 | Build a Flask web application to serve the detector |
-| 7 | Implement HTTP 400 and blank-input error handling |
-| 8 | Achieve a PyLint score of **10.00/10** on all source files |
-
----
-
-## 🛠 Technologies Used
+## Technologies Used
 
 | Technology | Purpose |
-|-----------|---------|
-| Python 3.9+ | Core language |
-| IBM Watson NLP API | Emotion analysis engine |
-| `requests` | HTTP client for API calls |
-| Flask 3.0+ | Web server framework |
-| HTML + CSS | Frontend interface |
-| `unittest` + `unittest.mock` | Unit testing with mocked HTTP |
+|---|---|
+| Python 3.9+ | Application development |
+| IBM Watson NLP API | Emotion detection |
+| Requests | HTTP requests |
+| Flask | Web application |
+| HTML and CSS | User interface |
+| unittest | Unit testing |
+| unittest.mock | Mocking API responses during tests |
 | PyLint | Static code analysis |
-| Git + GitHub | Version control |
+| Git and GitHub | Version control and repository hosting |
 
----
+## Project Structure
 
-## 📁 Project Structure
-
-```
+```text
 emotion-detector/
-├── README.md                        # This file
-├── SUBMISSION_CHECKLIST.md          # Grading criteria evidence map
-├── requirements.txt                 # Python dependencies
-├── .gitignore                       # Git ignore rules
-├── emotion_detection.py             # Task 2 & 3 — Core detection logic
-├── server.py                        # Task 6 & 7 — Flask web server
-├── test_emotion_detection.py        # Task 5 — Unit tests
+├── README.md
+├── SUBMISSION_CHECKLIST.md
+├── requirements.txt
+├── .gitignore
+├── emotion_detection.py
+├── server.py
+├── test_emotion_detection.py
 ├── EmotionDetection/
-│   └── __init__.py                  # Task 4 — Python package
+│   └── __init__.py
 ├── templates/
-│   └── index.html                   # Flask HTML template
+│   └── index.html
 ├── static/
-│   └── style.css                    # UI stylesheet
+│   └── style.css
 └── screenshots/
-    ├── 6b_deployment_test.png       # Task 6 evidence
-    └── 7c_error_handling_interface.png  # Task 7 evidence
+    ├── 6b_deployment_test.png
+    └── 7c_error_handling_interface.png
 ```
 
----
-
-## ⚙️ Installation (Windows)
+## Installation on Windows
 
 ### Prerequisites
-- Python 3.9 or later  
+
+- Python 3.9 or later
 - Git
 
-### 1 — Clone the repository
+### 1. Clone the repository
 
 ```powershell
-git clone https://github.com/purushottam775/emotion-detector.git
-cd emotion-detector
+git clone https://github.com/purushottam775/oaqjp-final-project-emb-ai.git
+cd oaqjp-final-project-emb-ai
 ```
 
-### 2 — Create and activate a virtual environment
+### 2. Create a virtual environment
 
 ```powershell
 python -m venv .venv
+```
+
+Activate it:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-> **Note:** If PowerShell blocks activation with a script-execution policy error, run the following command in an Administrator PowerShell window **once**, then retry activation:
-> ```powershell
-> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-> ```
-> Alternatively, invoke Python directly without activating:
-> ```powershell
-> .\.venv\Scripts\python.exe server.py
-> ```
+If activation is blocked, run Python directly using `.\.venv\Scripts\python.exe`.
 
-### 3 — Install dependencies
+### 3. Install dependencies
 
 ```powershell
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
----
+## Emotion Detection Implementation
 
-## 🚀 Running the Emotion Detector
+The `emotion_detection.py` module sends text to the Watson NLP EmotionPredict endpoint and extracts the scores for anger, disgust, fear, joy, and sadness.
 
-### Verify the package import
+The function returns a dictionary containing the five scores and the `dominant_emotion` field.
 
-```powershell
-python -c "from EmotionDetection import emotion_detector; print(callable(emotion_detector))"
-```
+Example of the expected output structure:
 
-Expected output:
-```
-True
-```
-
-### Quick function test (command-line)
-
-```powershell
-python -c "
-from EmotionDetection import emotion_detector
-result = emotion_detector('I am so happy today!')
-print(result)
-"
-```
-
-Expected output structure:
 ```python
 {
-    'anger': 0.0073...,
-    'disgust': 0.0023...,
-    'fear': 0.0059...,
-    'joy': 0.9669...,
-    'sadness': 0.0174...,
+    'anger': 0.01,
+    'disgust': 0.01,
+    'fear': 0.02,
+    'joy': 0.90,
+    'sadness': 0.06,
     'dominant_emotion': 'joy'
 }
 ```
 
----
+The numbers above are illustrative placeholders, not actual API results.
 
-## 🌐 Starting the Flask Web Application
+## Validate the Package
+
+Run the following command from the project root:
+
+```powershell
+python -c "from EmotionDetection.emotion_detection import emotion_detector; print(callable(emotion_detector))"
+```
+
+Expected output:
+
+```text
+True
+```
+
+This verifies that the function can be imported and is callable. The actual package structure must match the import path.
+
+## Run the Application
+
+Start the Flask server:
 
 ```powershell
 python server.py
 ```
 
-Flask will print:
-```
- * Running on http://0.0.0.0:5000
- * Running on http://127.0.0.1:5000
-```
+Open the application in your browser:
 
-Open your browser at **http://127.0.0.1:5000/**  
-Type any sentence in the text area and click **Analyse Emotion**.
+http://127.0.0.1:5000/
 
----
+Enter a sentence and submit it to display the emotion scores and dominant emotion.
 
-## 🧪 Running Unit Tests
+The live prediction requires the configured Watson NLP endpoint to be reachable.
+
+## Run Unit Tests
+
+Execute:
 
 ```powershell
 python -m unittest -v test_emotion_detection.py
 ```
 
-Expected output (15 tests):
+The tests should verify:
+
+- Joy is identified as the dominant emotion for an appropriate input.
+- Anger is identified as the dominant emotion for an appropriate input.
+- Disgust is identified as the dominant emotion for an appropriate input.
+- Sadness is identified as the dominant emotion for an appropriate input.
+- Fear is identified as the dominant emotion for an appropriate input.
+- The output contains all required keys.
+- Invalid inputs and HTTP errors are handled correctly.
+
+Mocked unit tests can run without making live API requests. Report the actual test results rather than assuming every test has passed.
+
+## Error Handling
+
+The application should handle HTTP 400 responses according to the assignment requirements and detect blank or whitespace-only input in the Flask route.
+
+For invalid input, the web interface should display an appropriate message, such as:
+
+```text
+Invalid text! Please try again!
 ```
-test_dominant_anger ... ok
-test_dominant_disgust ... ok
-test_dominant_fear ... ok
-test_dominant_joy ... ok
-test_dominant_sadness ... ok
-test_blank_input_returns_none_dominant ... ok
-test_connection_error_returns_none ... ok
-test_http_400_returns_none_dominant ... ok
-test_http_500_returns_none ... ok
-test_timeout_returns_none ... ok
-test_whitespace_input_returns_none_dominant ... ok
-test_all_required_keys_present ... ok
-test_dominant_emotion_is_string ... ok
-test_emotion_scores_are_numeric ... ok
-test_return_type_is_dict ... ok
-----------------------------------------------------------------------
-Ran 15 tests in 0.004s
-OK
-```
 
-All tests use **mocked HTTP responses** — no live network connection or API credentials are required.
+Verify the message using the running application.
 
----
+## Static Code Analysis
 
-## 🔍 Running PyLint (Static Code Analysis)
+Run PyLint on the relevant Python files:
 
 ```powershell
 python -m pylint server.py
@@ -204,76 +192,44 @@ python -m pylint emotion_detection.py
 python -m pylint test_emotion_detection.py
 ```
 
-Expected result for each file:
-```
-------------------------------------
-Your code has been rated at 10.00/10
-```
+Fix reported issues and rerun the commands.
 
----
+The assignment requires evidence of the PyLint result. Record the actual score produced by the tool; do not assume a perfect score without running the analysis.
 
-## 🔑 API Configuration
+## Screenshots
 
-The IBM Watson NLP endpoint is configured as constants in `emotion_detection.py`:
+Save the required screenshots in the `screenshots/` directory.
 
-```python
-WATSON_URL = (
-    "https://sn-watson-emotion.labs.skills.network"
-    "/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
-)
-WATSON_HEADERS = {
-    "grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"
-}
-```
+| Filename | Purpose |
+|---|---|
+| `6b_deployment_test.png` | Shows the running application with entered text and a completed emotion prediction. |
+| `7c_error_handling_interface.png` | Shows the error message displayed for blank input. |
 
-**No API key is required** — the IBM Skills Network endpoint is publicly accessible during the course.
+Ensure each screenshot contains the actual application output required by the assignment.
 
-### Troubleshooting
+## Assignment Task Mapping
 
-| Problem | Solution |
-|---------|---------|
-| `ConnectionError` | Check your internet connection; the Watson NLP host must be reachable |
-| HTTP 400 response | The API rejected the input — ensure the text is non-empty and in English |
-| HTTP 503 from Flask | The Watson NLP service is temporarily unavailable; retry later |
-| PyLint not found | Run `pip install pylint` |
-| Flask not found | Run `pip install flask` |
-| Script cannot be loaded (PowerShell) | See the virtual-environment activation note above |
+| Task | Description | Relevant files |
+|---|---|---|
+| 1 | GitHub repository and README | `README.md` |
+| 2 | Emotion detection implementation | `emotion_detection.py` |
+| 3 | Format the emotion scores and dominant emotion | `emotion_detection.py` |
+| 4 | Create and validate the package | `EmotionDetection/__init__.py` and package module |
+| 5 | Run unit tests | `test_emotion_detection.py` |
+| 6 | Deploy the application using Flask | `server.py`, `templates/index.html`, `static/style.css` |
+| 7 | Implement error handling | `emotion_detection.py`, `server.py` |
+| 8 | Perform static code analysis | Python source files and PyLint output |
 
----
+## Repository
 
-## 📸 Screenshots
+**Required IBM Skills Network assignment repository:**
 
-| Screenshot | Task | Description |
-|-----------|------|-------------|
-| `screenshots/6b_deployment_test.png` | Task 6 | Flask app running in browser with emotion analysis result |
-| `screenshots/7c_error_handling_interface.png` | Task 7 | Browser showing "Invalid text! Please try again!" error message |
+https://github.com/purushottam775/oaqjp-final-project-emb-ai
 
----
+**Additional project repository, if maintained separately:**
 
-## 📚 Assignment Task Mapping
+https://github.com/purushottam775/emotion-detector
 
-| Task | Description | Key File(s) |
-|------|-------------|-------------|
-| 1 | Repository and README | `README.md` |
-| 2 | Implement emotion detection | `emotion_detection.py` |
-| 3 | Format the output | `emotion_detection.py` |
-| 4 | Create and validate the package | `EmotionDetection/__init__.py` |
-| 5 | Unit testing | `test_emotion_detection.py` |
-| 6 | Flask web deployment | `server.py`, `templates/index.html`, `static/style.css` |
-| 7 | Error handling | `emotion_detection.py`, `server.py` |
-| 8 | Static code analysis | All `.py` files, PyLint |
+## License
 
----
-
-## 🔗 Repository
-
-**GitHub:** https://github.com/purushottam775/emotion-detector
-
----
-
-## 📄 License
-
-This project is submitted as part of the IBM Skills Network coursework. Source code is provided for educational purposes.
-=======
-# Repository for final project
->>>>>>> 3e04588b7b73640f1afb806d3e6bf3e2a41e8fd2
+This project is intended for educational purposes as part of the IBM Skills Network Emotion Detector assignment. Refer to the repository's license file for applicable licensing terms.
