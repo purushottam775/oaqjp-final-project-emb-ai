@@ -1,0 +1,35 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Byte-compiled / optimised Python files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environment variable files – NEVER commit secrets
+.env
+.env.*
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS artefacts
+Thumbs.db
+.DS_Store
+
+# PyLint cache
+.pylint.d/
+
+# pytest cache
+.pytest_cache/
