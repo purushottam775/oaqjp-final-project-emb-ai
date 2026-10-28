@@ -3,150 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Emotion Detector — IBM Watson NLP</title>
+  <title>Emotion Detection Application</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script src="{{ url_for('static', filename='mywebscript.js') }}"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <header class="header">
-      <h1>🧠 Emotion Detector</h1>
-      <p class="subtitle">Powered by IBM Watson NLP</p>
+      <h1>Emotion Detection Application</h1>
+      <p class="subtitle">IBM Skills Network — Final Project</p>
     </header>
 
-    <!-- Input card -->
     <section class="card">
-      <label for="textInput" class="label">Enter a sentence to analyse:</label>
+      <label for="textToAnalyze" class="label">Please enter the text you wish to analyze below:</label>
       <textarea
-        id="textInput"
+        id="textToAnalyze"
         class="textarea"
         rows="4"
-        placeholder="e.g. I am so happy today!"
+        placeholder="e.g. I am glad this happened"
       ></textarea>
 
-      <button id="analyseBtn" class="btn" onclick="analyseEmotion()">
-        Analyse Emotion
+      <button id="analyseBtn" class="btn" onclick="RunSentimentAnalysis()">
+        Run Sentiment Analysis
       </button>
     </section>
 
-    <!-- Result card -->
-    <section class="card result-card" id="resultCard" style="display:none;">
-      <h2>Results</h2>
-
-      <!-- Narrative output (assignment requirement) -->
-      <p id="narrativeOutput" class="narrative"></p>
-
-      <!-- Error banner -->
-      <div id="errorBanner" class="error-banner" style="display:none;"></div>
-
-      <!-- Emotion bars -->
-      <div id="emotionBars" class="bars"></div>
-
-      <!-- Dominant emotion badge -->
-      <div id="dominantBadge" class="dominant-badge"></div>
+    <section class="card result-card" id="resultCard">
+      <h2>System Response</h2>
+      <div id="system_response" class="narrative"></div>
     </section>
 
     <footer class="footer">
-      IBM Skills Network — Final Project &mdash; Emotion Detector
+      IBM Skills Network &mdash; Final Project &mdash; Emotion Detector
     </footer>
   </div>
-
-  <script>
-    const EMOTIONS = ["anger", "disgust", "fear", "joy", "sadness"];
-    const EMOTION_COLOURS = {
-      anger:   "#e74c3c",
-      disgust: "#8e44ad",
-      fear:    "#e67e22",
-      joy:     "#27ae60",
-      sadness: "#2980b9",
-    };
-
-    async function analyseEmotion() {
-      const textInput = document.getElementById("textInput");
-      const analyseBtn = document.getElementById("analyseBtn");
-      const resultCard = document.getElementById("resultCard");
-      const narrativeOutput = document.getElementById("narrativeOutput");
-      const errorBanner = document.getElementById("errorBanner");
-      const emotionBars = document.getElementById("emotionBars");
-      const dominantBadge = document.getElementById("dominantBadge");
-
-      const text = textInput.value.trim();
-
-      // Client-side blank-input validation
-      if (!text) {
-        showError("Invalid text! Please try again!", resultCard, errorBanner,
-                  narrativeOutput, emotionBars, dominantBadge);
-        return;
-      }
-
-      analyseBtn.disabled = true;
-      analyseBtn.textContent = "Analysing…";
-
-      try {
-        const url = "/emotionDetector?textToAnalyze=" + encodeURIComponent(text);
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (!response.ok || data.error) {
-          showError(data.error || "An unexpected error occurred.",
-                    resultCard, errorBanner, narrativeOutput,
-                    emotionBars, dominantBadge);
-          return;
-        }
-
-        // Display narrative text
-        narrativeOutput.textContent = data.result;
-        narrativeOutput.style.display = "block";
-        errorBanner.style.display = "none";
-
-        // Build emotion bars
-        const emotions = data.emotions;
-        emotionBars.innerHTML = "";
-        EMOTIONS.forEach(function(em) {
-          const score = emotions[em] !== null ? emotions[em] : 0;
-          const pct = (score * 100).toFixed(1);
-          const colour = EMOTION_COLOURS[em] || "#555";
-          const isDominant = em === emotions.dominant_emotion;
-
-          const row = document.createElement("div");
-          row.className = "bar-row" + (isDominant ? " dominant" : "");
-          row.innerHTML =
-            '<span class="bar-label">' + em.charAt(0).toUpperCase() + em.slice(1) + '</span>' +
-            '<div class="bar-track">' +
-              '<div class="bar-fill" style="width:' + pct + '%;background:' + colour + ';"></div>' +
-            '</div>' +
-            '<span class="bar-pct">' + pct + '%</span>';
-          emotionBars.appendChild(row);
-        });
-
-        // Dominant emotion badge
-        const dom = emotions.dominant_emotion;
-        dominantBadge.style.display = "block";
-        dominantBadge.style.borderColor = EMOTION_COLOURS[dom] || "#555";
-        dominantBadge.innerHTML =
-          "Dominant emotion: <strong>" + dom + "</strong>";
-
-        resultCard.style.display = "block";
-
-      } catch (err) {
-        showError("Network error — please check your connection and try again.",
-                  resultCard, errorBanner, narrativeOutput,
-                  emotionBars, dominantBadge);
-      } finally {
-        analyseBtn.disabled = false;
-        analyseBtn.textContent = "Analyse Emotion";
-      }
-    }
-
-    function showError(message, resultCard, errorBanner, narrativeOutput,
-                       emotionBars, dominantBadge) {
-      resultCard.style.display = "block";
-      errorBanner.textContent = message;
-      errorBanner.style.display = "block";
-      narrativeOutput.style.display = "none";
-      emotionBars.innerHTML = "";
-      dominantBadge.style.display = "none";
-    }
-  </script>
 </body>
 </html>

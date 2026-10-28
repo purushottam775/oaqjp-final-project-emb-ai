@@ -54,7 +54,7 @@ class TestEmotionDetectorDominance(unittest.TestCase):
             {"anger": 0.05, "disgust": 0.02, "fear": 0.03,
              "joy": 0.85, "sadness": 0.05}
         )
-        result = emotion_detector("I am so happy today!")
+        result = emotion_detector("I am glad this happened")
         self.assertEqual(result["dominant_emotion"], "joy")
 
     @patch("emotion_detection.requests.post")
@@ -64,7 +64,7 @@ class TestEmotionDetectorDominance(unittest.TestCase):
             {"anger": 0.90, "disgust": 0.10, "fear": 0.05,
              "joy": 0.02, "sadness": 0.08}
         )
-        result = emotion_detector("I am really angry at you!")
+        result = emotion_detector("I am really mad about this")
         self.assertEqual(result["dominant_emotion"], "anger")
 
     @patch("emotion_detection.requests.post")
@@ -74,7 +74,7 @@ class TestEmotionDetectorDominance(unittest.TestCase):
             {"anger": 0.04, "disgust": 0.05, "fear": 0.07,
              "joy": 0.03, "sadness": 0.81}
         )
-        result = emotion_detector("I feel so sad and lonely.")
+        result = emotion_detector("I am so sad about this")
         self.assertEqual(result["dominant_emotion"], "sadness")
 
     @patch("emotion_detection.requests.post")
@@ -84,7 +84,7 @@ class TestEmotionDetectorDominance(unittest.TestCase):
             {"anger": 0.10, "disgust": 0.05, "fear": 0.78,
              "joy": 0.02, "sadness": 0.05}
         )
-        result = emotion_detector("I am extremely scared of the dark.")
+        result = emotion_detector("I am really afraid that this will happen")
         self.assertEqual(result["dominant_emotion"], "fear")
 
     @patch("emotion_detection.requests.post")
@@ -94,7 +94,7 @@ class TestEmotionDetectorDominance(unittest.TestCase):
             {"anger": 0.10, "disgust": 0.82, "fear": 0.03,
              "joy": 0.02, "sadness": 0.03}
         )
-        result = emotion_detector("I feel disgusted by that behaviour.")
+        result = emotion_detector("I feel disgusted just hearing about this")
         self.assertEqual(result["dominant_emotion"], "disgust")
 
 

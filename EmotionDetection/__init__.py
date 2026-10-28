@@ -1,15 +1,5 @@
 """
-EmotionDetection package
-========================
-Public API for the IBM Watson NLP Emotion Detection project.
-
-Usage::
-
-    from EmotionDetection import emotion_detector
-    result = emotion_detector("I am so happy today!")
-    print(result)
+EmotionDetection Package
 """
-
-from emotion_detection import emotion_detector
-
-__all__ = ["emotion_detector"]
+from . import emotion_detection
+from .emotion_detection import emotion_detector

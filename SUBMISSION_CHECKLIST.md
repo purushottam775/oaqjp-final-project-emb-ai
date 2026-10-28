@@ -142,3 +142,4 @@ print(r.status_code, json.loads(r.data))
    You will be prompted for your GitHub username and Personal Access Token (PAT).
 
 2. **Capture screenshots** — Start `python server.py`, open the browser, and save the two screenshots per the instructions above.
+

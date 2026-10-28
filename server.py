@@ -1,68 +1,46 @@
 """
-server.py
-=========
-Flask web server for the IBM Watson NLP Emotion Detector application.
-
-Run with:
-    python server.py
-
-Then open http://127.0.0.1:5000/ in your browser.
+Executing this function initiates the application of emotion
+detection to be executed over the Flask channel and deployed on
+localhost:5000.
 """
+from flask import Flask, render_template, request
+from EmotionDetection.emotion_detection import emotion_detector
 
-from flask import Flask, render_template, request, jsonify
-from EmotionDetection import emotion_detector
+app = Flask("Emotion Detector")
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def index():
-    """Render the main emotion-detector web page."""
-    return render_template("index.html")
-
-
-@app.route("/emotionDetector", methods=["GET"])
-def emotion_detector_route():
-    """Analyse the emotion of the submitted text and return a JSON result.
-
-    Query Parameters:
-        textToAnalyze (str): The sentence to analyse.
-
-    Returns:
-        JSON response with emotion scores and dominant emotion, or an error
-        message when the input is blank or the API call fails.
+@app.route("/emotionDetector")
+def emo_detector():
     """
-    text_to_analyze = request.args.get("textToAnalyze", "").strip()
+    This code receives the text from the HTML interface and
+    runs emotion detection over it using emotion_detector()
+    function. The output returns the emotion scores and dominant emotion.
+    """
+    text_to_analyze = request.args.get('textToAnalyze')
+    response = emotion_detector(text_to_analyze)
 
-    # Validate: reject blank input before calling the external API
-    if not text_to_analyze:
-        return jsonify({"error": "Invalid text! Please try again!"}), 400
+    if response is None or response.get('dominant_emotion') is None:
+        return "Invalid text! Please try again!"
 
-    result = emotion_detector(text_to_analyze)
+    anger = response['anger']
+    disgust = response['disgust']
+    fear = response['fear']
+    joy = response['joy']
+    sadness = response['sadness']
+    dominant_emotion = response['dominant_emotion']
 
-    # Handle None result (network/server error) or all-None scores (API 400)
-    if result is None:
-        return (
-            jsonify({"error": "Emotion analysis service is unavailable. "
-                               "Please try again later."}),
-            503,
-        )
-
-    if result.get("dominant_emotion") is None:
-        return jsonify({"error": "Invalid text! Please try again!"}), 400
-
-    response_text = (
-        f"For the given statement, the system response is "
-        f"'anger': {result['anger']}, "
-        f"'disgust': {result['disgust']}, "
-        f"'fear': {result['fear']}, "
-        f"'joy': {result['joy']} and "
-        f"'sadness': {result['sadness']}. "
-        f"The dominant emotion is {result['dominant_emotion']}."
+    return (
+        f"For the given statement, the system response is 'anger': {anger}, "
+        f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. "
+        f"The dominant emotion is {dominant_emotion}."
     )
 
-    return jsonify({"result": response_text, "emotions": result})
-
+@app.route("/")
+def render_index_page():
+    """
+    This function initiates the rendering of the main application
+    page over the Flask channel
+    """
+    return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
